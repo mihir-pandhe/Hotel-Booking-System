@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <limits>
 
 using namespace std;
 
@@ -127,7 +128,13 @@ int main()
         cout << "7. Show Bookings" << endl;
         cout << "8. Exit" << endl;
         int userChoice;
-        cin >> userChoice;
+
+        while (!(cin >> userChoice) || userChoice < 1 || userChoice > 8)
+        {
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cout << "Invalid choice. Please enter a number between 1 and 8: ";
+        }
 
         if (userChoice == 1)
         {
@@ -137,7 +144,12 @@ int main()
             cin.ignore();
             getline(cin, guestName);
             cout << "Enter room number: ";
-            cin >> roomNumber;
+            while (!(cin >> roomNumber) || roomNumber <= 0)
+            {
+                cin.clear();
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                cout << "Invalid room number. Please enter a positive integer: ";
+            }
             if (hotelSystem.isRoomAvailable(roomNumber))
             {
                 hotelSystem.addBooking(guestName, roomNumber);
@@ -152,7 +164,12 @@ int main()
         {
             int roomNumber;
             cout << "Enter room number to cancel booking: ";
-            cin >> roomNumber;
+            while (!(cin >> roomNumber) || roomNumber <= 0)
+            {
+                cin.clear();
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                cout << "Invalid room number. Please enter a positive integer: ";
+            }
             hotelSystem.cancelBooking(roomNumber);
         }
         else if (userChoice == 3)
@@ -160,9 +177,19 @@ int main()
             int oldRoomNumber, newRoomNumber;
             string newGuestName;
             cout << "Enter old room number to modify: ";
-            cin >> oldRoomNumber;
+            while (!(cin >> oldRoomNumber) || oldRoomNumber <= 0)
+            {
+                cin.clear();
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                cout << "Invalid room number. Please enter a positive integer: ";
+            }
             cout << "Enter new room number: ";
-            cin >> newRoomNumber;
+            while (!(cin >> newRoomNumber) || newRoomNumber <= 0)
+            {
+                cin.clear();
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                cout << "Invalid room number. Please enter a positive integer: ";
+            }
             cout << "Enter new guest name: ";
             cin.ignore();
             getline(cin, newGuestName);
@@ -172,7 +199,12 @@ int main()
         {
             int roomNumber;
             cout << "Enter room number to search: ";
-            cin >> roomNumber;
+            while (!(cin >> roomNumber) || roomNumber <= 0)
+            {
+                cin.clear();
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                cout << "Invalid room number. Please enter a positive integer: ";
+            }
             hotelSystem.searchBookingByRoom(roomNumber);
         }
         else if (userChoice == 5)
@@ -187,7 +219,12 @@ int main()
         {
             int roomNumber;
             cout << "Enter room number to check availability: ";
-            cin >> roomNumber;
+            while (!(cin >> roomNumber) || roomNumber <= 0)
+            {
+                cin.clear();
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                cout << "Invalid room number. Please enter a positive integer: ";
+            }
             if (hotelSystem.isRoomAvailable(roomNumber))
             {
                 cout << "Room " << roomNumber << " is available." << endl;
@@ -204,10 +241,6 @@ int main()
         else if (userChoice == 8)
         {
             break;
-        }
-        else
-        {
-            cout << "Invalid choice. Please try again." << endl;
         }
     }
 
