@@ -24,6 +24,32 @@ public:
         bookings.push_back(Booking(guestName, roomNumber));
     }
 
+    void cancelBooking(int roomNumber)
+    {
+        for (auto it = bookings.begin(); it != bookings.end(); ++it)
+        {
+            if (it->roomNumber == roomNumber)
+            {
+                bookings.erase(it);
+                cout << "Booking for room " << roomNumber << " has been canceled." << endl;
+                return;
+            }
+        }
+        cout << "No booking found for room " << roomNumber << "." << endl;
+    }
+
+    bool isRoomAvailable(int roomNumber) const
+    {
+        for (const auto &booking : bookings)
+        {
+            if (booking.roomNumber == roomNumber)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
     void showBookings() const
     {
         cout << "Current Bookings:" << endl;
@@ -41,8 +67,10 @@ int main()
     while (true)
     {
         cout << "\n1. Add Booking" << endl;
-        cout << "2. Show Bookings" << endl;
-        cout << "3. Exit" << endl;
+        cout << "2. Cancel Booking" << endl;
+        cout << "3. Check Room Availability" << endl;
+        cout << "4. Show Bookings" << endl;
+        cout << "5. Exit" << endl;
         int userChoice;
         cin >> userChoice;
 
@@ -55,13 +83,42 @@ int main()
             getline(cin, guestName);
             cout << "Enter room number: ";
             cin >> roomNumber;
-            hotelSystem.addBooking(guestName, roomNumber);
+            if (hotelSystem.isRoomAvailable(roomNumber))
+            {
+                hotelSystem.addBooking(guestName, roomNumber);
+                cout << "Booking added successfully." << endl;
+            }
+            else
+            {
+                cout << "Room " << roomNumber << " is already booked." << endl;
+            }
         }
         else if (userChoice == 2)
         {
-            hotelSystem.showBookings();
+            int roomNumber;
+            cout << "Enter room number to cancel booking: ";
+            cin >> roomNumber;
+            hotelSystem.cancelBooking(roomNumber);
         }
         else if (userChoice == 3)
+        {
+            int roomNumber;
+            cout << "Enter room number to check availability: ";
+            cin >> roomNumber;
+            if (hotelSystem.isRoomAvailable(roomNumber))
+            {
+                cout << "Room " << roomNumber << " is available." << endl;
+            }
+            else
+            {
+                cout << "Room " << roomNumber << " is already booked." << endl;
+            }
+        }
+        else if (userChoice == 4)
+        {
+            hotelSystem.showBookings();
+        }
+        else if (userChoice == 5)
         {
             break;
         }
