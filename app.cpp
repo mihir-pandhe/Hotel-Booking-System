@@ -80,6 +80,36 @@ public:
         }
         cout << "No booking found for room " << oldRoomNumber << "." << endl;
     }
+
+    void searchBookingByRoom(int roomNumber) const
+    {
+        for (const auto &booking : bookings)
+        {
+            if (booking.roomNumber == roomNumber)
+            {
+                cout << "Booking found: Guest Name: " << booking.guestName << ", Room Number: " << booking.roomNumber << endl;
+                return;
+            }
+        }
+        cout << "No booking found for room " << roomNumber << "." << endl;
+    }
+
+    void searchBookingByName(const string &guestName) const
+    {
+        bool found = false;
+        for (const auto &booking : bookings)
+        {
+            if (booking.guestName == guestName)
+            {
+                cout << "Booking found: Guest Name: " << booking.guestName << ", Room Number: " << booking.roomNumber << endl;
+                found = true;
+            }
+        }
+        if (!found)
+        {
+            cout << "No bookings found for guest " << guestName << "." << endl;
+        }
+    }
 };
 
 int main()
@@ -91,9 +121,11 @@ int main()
         cout << "\n1. Add Booking" << endl;
         cout << "2. Cancel Booking" << endl;
         cout << "3. Modify Booking" << endl;
-        cout << "4. Check Room Availability" << endl;
-        cout << "5. Show Bookings" << endl;
-        cout << "6. Exit" << endl;
+        cout << "4. Search Booking by Room Number" << endl;
+        cout << "5. Search Booking by Guest Name" << endl;
+        cout << "6. Check Room Availability" << endl;
+        cout << "7. Show Bookings" << endl;
+        cout << "8. Exit" << endl;
         int userChoice;
         cin >> userChoice;
 
@@ -139,6 +171,21 @@ int main()
         else if (userChoice == 4)
         {
             int roomNumber;
+            cout << "Enter room number to search: ";
+            cin >> roomNumber;
+            hotelSystem.searchBookingByRoom(roomNumber);
+        }
+        else if (userChoice == 5)
+        {
+            string guestName;
+            cout << "Enter guest name to search: ";
+            cin.ignore();
+            getline(cin, guestName);
+            hotelSystem.searchBookingByName(guestName);
+        }
+        else if (userChoice == 6)
+        {
+            int roomNumber;
             cout << "Enter room number to check availability: ";
             cin >> roomNumber;
             if (hotelSystem.isRoomAvailable(roomNumber))
@@ -150,11 +197,11 @@ int main()
                 cout << "Room " << roomNumber << " is already booked." << endl;
             }
         }
-        else if (userChoice == 5)
+        else if (userChoice == 7)
         {
             hotelSystem.showBookings();
         }
-        else if (userChoice == 6)
+        else if (userChoice == 8)
         {
             break;
         }
